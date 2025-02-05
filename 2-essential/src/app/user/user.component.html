@@ -1,12 +1,11 @@
 <div>
-    <button (click)="onSelectUser()">
+    <button [class.active]="selected" (click)="onSelectUser()" >
         <!-- For src, user [] instead of {{}} -->
-         <!-- if you use signal, add "()" after imagePath -->
+         <!-- if you use signal, add "()" after each variable -->
         <img 
-            [src]="imagePath()" 
-            [alt]="selectedUser().name"
+            [src]="imagePath" 
+            [alt]="user.name"
         />
-        <!-- if you add signal, you need "selectedUser()" instead of" selectedUser" -->
-        <span>{{ selectedUser().name }}</span>
+        <span>{{ user.name }}</span>
     </button>
 </div>
