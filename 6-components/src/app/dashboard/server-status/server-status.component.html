@@ -1,12 +1,35 @@
-@if (currentStatus === 'online') {
-  <p>Servers are online</p>
-  <p>All systems are operational.</p>
-} @else if (currentStatus === 'offline') {
-  <p>Servers are offline</p>
-  <p>Functionality should be restored soon.</p>
-} @else {
-  <p>Server status is unknown</p>
-  <p>Fetching server status failed.</p>
-}
+<!-- render status class whrn users are online -->
 
+<!-- option 1 -->
+<!-- <div [class.status]="currentStatus === 'online'"> -->
 
+<!-- otion 2 -->
+<div [class]="{
+  status: true,
+  'status-online': currentStatus === 'online',
+  'status-offline': currentStatus === 'offline',
+  'status-unknown': currentStatus === 'unknown'
+  }"
+>
+  @if (currentStatus === 'online') {
+    <p>Servers are online</p>
+    <p>All systems are operational.</p>
+  } @else if (currentStatus === 'offline') {
+    <p>Servers are offline</p>
+    <p>Functionality should be restored soon.</p>
+  } @else {
+    <p>Server status is unknown</p>
+    <p>Fetching server status failed.</p>
+  }
+</div>
+
+<!-- You can inject styling in html -->
+
+<!--  [style]="{
+    'font-size': '20px'
+  }"
+-->
+
+<!-- OR -->
+
+<!-- [style.fontSize]="'64px'"  -->
