@@ -1,4 +1,4 @@
-<div>
+<app-card>
     <button [class.active]="selected" (click)="onSelectUser()" >
         <!-- For src, user [] instead of {{}} -->
          <!-- if you use signal, add "()" after each variable -->
@@ -8,4 +8,4 @@
         />
         <span>{{ user.name }}</span>
     </button>
-</div>
+</app-card>
