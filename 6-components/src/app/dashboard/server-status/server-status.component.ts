@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit, inject, signal, effect } from '@angular/core';
 import { interval } from 'rxjs';
 
 @Component({
@@ -11,7 +11,10 @@ import { interval } from 'rxjs';
 
 // if you want to use ngOnInit(), add "implements OnInit"
 export class ServerStatusComponent implements OnInit {
-  currentStatus: 'online' | 'offline' | 'unknown' = 'offline';
+  // currentStatus: 'online' | 'offline' | 'unknown' = 'offline';
+  currentStatus = signal<'online' | 'offline' | 'unknown'>('offline');
+
+
   // Clean up option 1 - use ngOnDestroy
   // private interval?: NodeJS.Timeout;
   // private interval?: ReturnType<typeof setInterval>;
@@ -19,7 +22,22 @@ export class ServerStatusComponent implements OnInit {
   // clean up option 2 - destroyRef
   private destroyRef = inject(DestroyRef);
 
-  constructor() {}
+  constructor() {
+    // run code when signal value change
+    // effect(() => {
+    //   console.log(this.currentStatus());
+    // })
+
+    // cleanup before the effect function runs again
+    effect((onCleanup) => {
+      const timer = setTimeout(() => {
+        console.log("current status is: " + this.currentStatus);
+      }, 1000);
+      onCleanup(() => {
+        clearTimeout(timer);
+      })
+    })
+  }
 
   // initialize to set up the interval
   ngOnInit(){
@@ -27,13 +45,23 @@ export class ServerStatusComponent implements OnInit {
     const interval = setInterval(() => {
       const rnd = Math.random();
 
+      // if (rnd < 0.5){
+      //   this.currentStatus = 'offline'
+      // } else if (rnd < 0.9){
+      //   this.currentStatus = 'online'
+      // } else {
+      //   this.currentStatus = 'unknown'
+      // }
+
+      // when you use signal(), use "set"
       if (rnd < 0.5){
-        this.currentStatus = 'offline'
+        this.currentStatus.set('offline');
       } else if (rnd < 0.9){
-        this.currentStatus = 'online'
+        this.currentStatus.set('online')
       } else {
-        this.currentStatus = 'unknown'
+        this.currentStatus.set('unknown');
       }
+
     }, 5000);
 
     this.destroyRef.onDestroy(() => {
