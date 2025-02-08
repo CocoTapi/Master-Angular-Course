@@ -1,12 +1,19 @@
-<form (ngSubmit)="onSubmit(titleInput.value, textInput.value)" #formData>
+<!-- <form (ngSubmit)="onSubmit(titleInput.value, textInput.value)" #formData> -->
+<form (ngSubmit)="onSubmit()" #formData>
+
   <app-control label="Title">
     <!-- #titleInput is for new-ticket.component.ts -->
     <!-- #input is for control.component.ts -->
-    <input type="text" name="title" id="title" #titleInput #input/>
+    <!-- <input type="text" name="title" id="title" #titleInput #input /> -->
+
+    <input type="text" name="title" id="title" [(ngModel)]="enteredTitle" />
+
   </app-control>
   <!-- if you put template variable (such as #textInput) in component instance, you will access to the component instance instead -->
   <app-control label="Request">
-    <textarea name="request" id="request" rows="3" #textInput #input></textarea>
+    <!-- <textarea name="request" id="request" rows="3" #textInput #input ></textarea> -->
+
+    <textarea name="request" id="request" rows="3"  [(ngModel)]="enteredText"  ></textarea>
   </app-control>
     <p>
         <button appButton>
