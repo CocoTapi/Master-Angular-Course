@@ -3,12 +3,16 @@
 
 <ul>
   <li>
-    <a href="https://angular.dev">Angular Documentation</a>
+    <!-- if you just want to send string, you don't need [] like [queryParam] -->
+    <!-- <a href="https://angular.dev" appSafeLink queryParam="myapp-docs-link">Angular Documentation</a> -->
+
+    <!-- if you add alias in ts, you can set without queryParam -->
+    <a href="https://angular.dev" appSafeLink="myapp-docs-link">Angular Documentation</a>
   </li>
   <li>
-    <a href="https://academind.com/courses">Academind Courses</a>
+    <a href="https://academind.com/courses" appSafeLink queryParam="myapp-docs-course">Academind Courses</a>
   </li>
   <li>
-    <a href="https://www.google.com/search?q=angular">Google</a>
+    <a href="https://www.google.com/search?q=angular" appSafeLink>Google</a>
   </li>
 </ul>
