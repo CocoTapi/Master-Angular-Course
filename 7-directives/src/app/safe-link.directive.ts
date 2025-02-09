@@ -1,4 +1,5 @@
 import { Directive, ElementRef, input, inject } from "@angular/core";
+import { LogDirective } from "./log.directive";
 
 @Directive({
     // attribute selector. Need unique name to distinguish already existed ones. "a" is for anchor element  
@@ -6,7 +7,8 @@ import { Directive, ElementRef, input, inject } from "@angular/core";
     standalone: true,
     host: {
         '(click)': 'onConfirmLeavePage($event)'
-    }
+    },
+    hostDirectives: [LogDirective]
 
 })
 
