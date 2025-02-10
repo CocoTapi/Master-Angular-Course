@@ -2,8 +2,8 @@
   <h2>My Tasks</h2>
   <p>
     <select (change)="onChangeTasksFilter(filter.value)" #filter>
-      <!-- <option value="all">All</option>
-      <option value="open">Open</option>
+      <option value="all">All</option>
+      <!-- <option value="open">Open</option>
       <option value="in-progress">In-Progress</option>
       <option value="done">Completed</option> -->
 
@@ -20,4 +20,11 @@
       <app-task-item [task]="task" />
     </li>
   }
+
+  <!-- no-signal version: -->
+  <!-- @for (task of tasks; track task.id) {
+    <li>
+      <app-task-item [task]="task" />
+    </li>
+  } -->
 </ul>
