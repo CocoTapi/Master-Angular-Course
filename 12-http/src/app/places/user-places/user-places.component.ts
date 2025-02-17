@@ -21,28 +21,32 @@ export class UserPlacesComponent implements OnInit {
   places = this.placesService.loadedUserPlaces;
 
 
-ngOnInit(): void {
-  this.isFetching.set(true);
-  
-  // you have to subscribe to trigger get request
-  const subscription = 
-    this.placesService.loadUserPlaces().subscribe({
-      // next: (places: Place[]) => {
-      //   console.log();
-      //   this.places.set(places);
-      // },
-      error: (err: Error) => {
-        // console.log(err)
-        this.error.set(err.message)
-        // this.error.set('Something went wrong fetching the available places. Please try again later.');
-      },
-      complete: () => {
-        this.isFetching.set(false);
-      }
-    });
-  
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-      })
-}
+  ngOnInit(): void {
+    this.isFetching.set(true);
+    
+    // you have to subscribe to trigger get request
+    const subscription = 
+      this.placesService.loadUserPlaces().subscribe({
+        // next: (places: Place[]) => {
+        //   console.log();
+        //   this.places.set(places);
+        // },
+        error: (err: Error) => {
+          // console.log(err)
+          this.error.set(err.message)
+          // this.error.set('Something went wrong fetching the available places. Please try again later.');
+        },
+        complete: () => {
+          this.isFetching.set(false);
+        }
+      });
+    
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+        })
+  };
+
+  onRemovePlace(place: Place) {
+    this.placesService.removeUserPlace(place).subscribe();
+  }
 }
