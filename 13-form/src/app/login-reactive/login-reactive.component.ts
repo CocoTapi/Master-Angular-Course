@@ -101,6 +101,11 @@ export class LoginReactiveComponent implements OnInit {
     // if you want to add validation here (not common)
     // this.form.controls.email.addValidators[Symbol]
 
+    if (this.form.invalid){
+      console.log('INVALID FORM');
+      return;
+    }
+
     const enteredEmail = this.form.controls.email;
     const enteredPassword = this.form.controls.password;
 
