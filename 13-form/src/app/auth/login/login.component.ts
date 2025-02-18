@@ -1,9 +1,62 @@
-import { Component } from '@angular/core';
+import { afterNextRender, Component, DestroyRef, viewChild, inject } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  imports: [FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {}
+export class LoginComponent {
+  private form = viewChild.required<NgForm>('form');
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    afterNextRender(() => {
+      const savedForm = window.localStorage.getItem('saved-login-form');
+
+      if (savedForm) {
+        const loadedFormData = JSON.parse(savedForm);
+        const savedEmail = loadedFormData.email;
+
+        // need a very short timeout to update and be fully initialized  
+        setTimeout(() => {
+          this.form().controls['email'].setValue(savedEmail);
+          // this.form().setValue({
+          //   email: savedEmail,
+          //   password: ''
+          // })
+        }, 1);
+      
+      }
+
+      // debounceTime(500): you stop typing and takes 500 miliseconds, execute this meaning store email in local storage
+      const subscription = this.form().valueChanges?.pipe(debounceTime(500)).subscribe({
+        next: (value) => 
+          window.localStorage.setItem(
+            'saved-login-form', 
+            JSON.stringify({ email: value.email })
+          )
+      });
+
+      this.destroyRef.onDestroy(() => subscription?.unsubscribe());
+    })
+  }
+
+  // template-driven
+  onSubmit(formData: NgForm) {
+    // require this to prevent submitting if it's invalid
+    if (formData.form.invalid) {
+      return;
+    }
+
+    const enteredEmail = formData.form.value.email;
+    const enteredPassword = formData.form.value.password;
+
+    console.log(enteredEmail, enteredPassword);
+
+    formData.form.reset();
+  }
+}
