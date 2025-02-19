@@ -1,5 +1,5 @@
 <div>
-  <!-- if you use href, all angular application would be reloaded -->
+  <!-- if you use href, all angular application would be reloaded. so use routerLink instead -->
   <a [routerLink]="['/users/', user().id, 'tasks']" routerLinkActive="'selected">
     <img [src]="imagePath()" [alt]="user().name" />
     <span>{{ user().name }}</span>
