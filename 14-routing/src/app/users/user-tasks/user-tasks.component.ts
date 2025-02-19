@@ -20,8 +20,8 @@ export class UserTasksComponent {
 
 
   // private usersService = inject(UsersService);
-  private activatedRoute = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
+  // private activatedRoute = inject(ActivatedRoute);
+  // private destroyRef = inject(DestroyRef);
  
 
   // userName = computed(() => 
@@ -71,4 +71,11 @@ export const resolveUserName: ResolveFn<string> = (
  = usersService.users.find((u) => u.id === activatedRoute.paramMap.get('userId'))
   ?.name || '';
  return userName;    
+}
+
+export const resolveTitle: ResolveFn<string> = (
+  activatedRoute: ActivatedRouteSnapshot, 
+  routerState: RouterStateSnapshot
+) => {
+  return resolveUserName(activatedRoute, routerState) + '\'s Tasks'
 }
