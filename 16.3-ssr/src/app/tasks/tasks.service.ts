@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { afterNextRender, Injectable, signal } from '@angular/core';
 
 import { type NewTaskData } from './task/task.model';
 
@@ -33,11 +33,15 @@ export class TasksService {
   allTasks = this.tasks.asReadonly();
 
   constructor() {
-    const tasks = localStorage.getItem('tasks');
+    // for server side application. only execute on the client side
+    // because localstorage is browser side service
+    afterNextRender(() => {
+      const tasks = localStorage.getItem('tasks');
 
-    if (tasks) {
-      this.tasks.set(JSON.parse(tasks));
-    }
+      if (tasks) {
+        this.tasks.set(JSON.parse(tasks));
+      }
+    }) 
   }
 
   addTask(taskData: NewTaskData, userId: string) {
