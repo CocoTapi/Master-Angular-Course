@@ -41,4 +41,12 @@
   </p>
 </section>
 
-<app-offer-preview />
+<!-- defer loading -->
+ <!-- on viewport: when the user scroll down and see this area -->
+  <!-- on interaction: when the user click the area -->
+  <!-- prefetch on hover: showing the component after clicking but loading it when hovering -->
+ @defer(on interaction; prefetch on hover) {
+  <app-offer-preview />
+ } @placeholder {
+  <p class="fallback">We might have an offer...</p>
+ }
